@@ -1,34 +1,28 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
-    char s[500];
-    int i=0;
+    char s[200];
+    int i;
 
-    printf("Enter source code:\n");
-    while((s[i]=getchar())!=EOF)
-        i++;
-    s[i]='\0';
+    printf("Enter source code (Type END to stop):\n");
 
-    for(i=0;s[i]!='\0';i++)
+    while(fgets(s, sizeof(s), stdin))
     {
-        if(s[i]==' '||s[i]=='\t'||s[i]=='\n')
-            continue;
+        if(strncmp(s, "END", 3) == 0)
+            break;
 
-        if(s[i]=='/'&&s[i+1]=='/')
+        for(i = 0; s[i] != '\0'; i++)
         {
-            while(s[i]!='\n'&&s[i]!='\0')
-                i++;
+            if(s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
+                continue;
+
+            if(s[i] == '/' && s[i+1] == '/')
+                break;
+
+            printf("%c", s[i]);
         }
-        else if(s[i]=='/'&&s[i+1]=='*')
-        {
-            i+=2;
-            while(!(s[i]=='*'&&s[i+1]=='/'))
-                i++;
-            i++;
-        }
-        else
-            printf("%c",s[i]);
     }
 
     return 0;
